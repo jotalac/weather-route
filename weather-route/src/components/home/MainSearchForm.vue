@@ -24,6 +24,10 @@ const resetFormData = () => {
   toast.info("Form resetted!")
 }
 
+const submitFormData = () => {
+  toast.success("Form submitted!")
+}
+
 </script>
 
 <template>
@@ -68,7 +72,7 @@ const resetFormData = () => {
 
     <div class="buttons-cont">
       <ActionButton :button-text="'Reset'" :button-type="'reset'" @button-click="resetFormData"/>
-      <ActionButton :button-text="'Submit'" :button-type="'submit'"/>
+      <ActionButton :button-text="'Submit'" :button-type="'submit'" @button-click="submitFormData"/>
 
     </div>
 
@@ -84,13 +88,14 @@ const resetFormData = () => {
   max-width: 1200px;
   width: 800px;
   padding: 40px 20px;
-  background-color: var(--green-2000);
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.358);
   border-radius: var(--border-rad-big);
-  border: 2px var(--green-250) solid;
+  border: 2px var(--primary-250) solid;
 }
 
 .form-item-label{
-  color: var(--green-100);
+  color: var(--primary-100);
   /* margin-bottom: 10px; */
 }
 
@@ -118,7 +123,7 @@ const resetFormData = () => {
 .input-icon {
   width: 30px;
   height: 30px;
-  color: var(--green-100);
+  color: var(--primary-100);
   margin-right: 5px;
 
 }
@@ -138,7 +143,7 @@ const resetFormData = () => {
 .dynamic-transport-icon {
   width: 30px;
   height: 30px;
-  color: var(--green-100);
+  color: var(--primary-100);
   position: absolute;
   bottom: 10px;
 }
@@ -148,7 +153,7 @@ const resetFormData = () => {
   height: 3px;
   border-radius: 10px;
   border: none;
-  background-color: var(--green-100);
+  background-color: var(--primary-100);
 }
 
 /* second line with transport type and date and time picker */
@@ -163,7 +168,7 @@ const resetFormData = () => {
 }
 
 .form-item-label-second-row{
-  color: var(--green-100);
+  color: var(--primary-100);
   margin-bottom: 5px;
 }
 

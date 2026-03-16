@@ -56,12 +56,12 @@ button:hover{
 }
 
 button.submit{
-  background-color: var(--green-100);
-  color: var(--green-1500);
+  background-color: var(--primary-100);
+  color: var(--primary-1500);
 }
 
 button.reset{
-  background-color: var(--green-500);
-  color: var(--green-100);
+  background-color: var(--primary-1500);
+  color: var(--primary-100);
 }
 </style>

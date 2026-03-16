@@ -49,10 +49,10 @@ const maxDateTime = computed(() => {
   border-radius: 50px;
   padding: 0px 10px;
   outline: none;
-  /* border: 2px var(--green-250) solid; */
+  /* border: 2px var(--primary-250) solid; */
   border: none;
-  background-color: var(--green-250);
-  color: var(--green-1500);
+  background-color: var(--primary-250);
+  color: var(--primary-1500);
   cursor: pointer;
   transition: all ease-in-out 0.2s;
 }

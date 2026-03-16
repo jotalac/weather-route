@@ -53,11 +53,11 @@ const searchStore = useSearchStore();
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background-color: var(--green-250);
+  background-color: var(--primary-250);
 }
 
 .transport-type-button.selected{
-  background-color: var(--green-100);
+  background-color: var(--primary-100);
 }
 
 .transport-type-button:hover{
@@ -66,7 +66,7 @@ const searchStore = useSearchStore();
 }
 
 .transport-type-icon {
-  color: var(--green-1500);
+  color: var(--primary-1500);
 }
 
 

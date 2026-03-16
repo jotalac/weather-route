@@ -15,23 +15,15 @@
     --main-title-text: 5em;
 
 
-    --primary-0: rgb(245, 246, 250);
-    --primary-50: #D4DDF7ff;
-    --primary-100: #293988ff;
-    --primary-200: #15137Aff;
-    --primary-400: rgb(25, 32, 97);
-    --primary-600: rgb(44, 51, 82);
-    --primary-800: rgb(27, 30, 43);
-    --primary-1000: rgb(11, 13, 20);
-
     /* rest */
-    --green-2000: #0d1710;
-    --green-1500: #141f17;
-    --green-1000: #253D2C;
-    --green-500: #2E6F40;
-    --green-250: #68BA7F;
-    --green-150: #BAC095;
-    --green-100: #CFFFDC;
+    --primary-2000: #0d1317;
+    --primary-1500: #141a1f;
+    --primary-1000: #252e3d;
+    --primary-500: #2e566f;
+    --primary-250: #689fba;
+    --primary-150: #95b7c0;
+    --primary-100: #b6e5ea;
+    --primary-0: #e4f2f3;
 
     --gray-1500: #1c1b1b;
     --gray-1000: #3D3D3D;

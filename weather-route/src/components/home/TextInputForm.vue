@@ -21,9 +21,9 @@ input {
   border-radius: 50px;
   padding: 10px;
   outline: none;
-  border: 2px var(--green-250) solid;
+  border: 2px var(--primary-250) solid;
   font-size: var(--paragraph-text);
-  background-color: var(--green-100);
+  background-color: var(--primary-100);
   transition: all ease-in-out 0.2s;
 }
 
