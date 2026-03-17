@@ -7,7 +7,8 @@ import ResetIcon from './icons/ResetIcon.vue';
 
 interface Props {
   buttonType: ButtonType
-  buttonText: string
+  buttonText: string,
+  buttonDisabled: boolean
 }
 
 interface Emits {
@@ -31,6 +32,8 @@ const buttonIcons = {
   <button
     :class="props.buttonType"
     @click="emit('buttonClick')"
+    :type="buttonType === 'cancel' ? 'button' : buttonType "
+    :disabled="buttonDisabled"
   >
     <span class="text-button">{{buttonText}}</span>
     <component :is="buttonIcons[buttonType]" class="icon-button"/>

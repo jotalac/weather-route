@@ -14,6 +14,7 @@ const searchStore = useSearchStore();
       class="transport-type-button"
       :class="{selected: searchStore.transportMode === 'car'}"
       @click="searchStore.setTransportMode('car')"
+      type="button"
     >
       <CarIcon  class="transport-type-icon"/>
     </button>
@@ -22,6 +23,7 @@ const searchStore = useSearchStore();
       class="transport-type-button"
       :class="{selected: searchStore.transportMode === 'walk'}"
       @click="searchStore.setTransportMode('walk')"
+      type="button"
     >
       <WalkIcon  class="transport-type-icon"/>
     </button>
@@ -30,6 +32,7 @@ const searchStore = useSearchStore();
       class="transport-type-button"
       :class="{selected: searchStore.transportMode === 'bike'}"
       @click="searchStore.setTransportMode('bike')"
+      type="button"
     >
       <BikeIcon  class="transport-type-icon"/>
     </button>

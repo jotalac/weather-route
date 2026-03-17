@@ -1,7 +1,8 @@
 <script setup lang="ts">
 
 interface Props {
-  placeholder: string
+  placeholder: string,
+  errorMsg: string
 }
 
 const props = defineProps<Props>()
@@ -11,7 +12,12 @@ const model = defineModel<string>()
 </script>
 
 <template>
-  <input type="text" :placeholder="props.placeholder" v-model="model"/>
+  <input
+    type="text"
+    :placeholder="props.placeholder"
+    v-model="model"
+    :class="{'error': errorMsg !== ''}"
+  />
 </template>
 
 <style scoped>
@@ -30,6 +36,10 @@ input {
 input:focus {
   filter: brightness(0.9);
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.313);
+}
+
+input.error {
+  border: 2px red solid;
 }
 
 </style>
