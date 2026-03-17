@@ -49,3 +49,36 @@ a,
   color: var(--primary-100);
 }
 
+
+/* SOURCE : https://www.w3schools.com/css/css_tooltip.asp */
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden; /* Hidden by default */
+  max-width: 300px;
+  background-color: var(--primary-2000);
+  color: #ffffff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 4; /* Ensure tooltip is displayed above content */
+
+  top: 100%;
+  left: 50%;
+  margin-left: -65px;
+}
+
+/* Show the tooltip text on hover */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+

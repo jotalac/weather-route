@@ -10,6 +10,7 @@ import CarSideIcon from '../icons/CarSideIcon.vue';
 import DateTimePicker from './DateTimePicker.vue';
 import ActionButton from '../ActionButton.vue';
 import { toast } from 'vue3-toastify';
+import GPSIcon from '../icons/GPSIcon.vue';
 
 const searchStore = useSearchStore();
 
@@ -34,10 +35,17 @@ const submitFormData = () => {
   <main class="main-form-cont">
 
     <div class="form-first-row">
+
       <div class="location-input-cont">
+
         <div class="location-label-cont">
           <LocationIcon class="input-icon"/>
           <p class="form-item-label">Start location</p>
+
+          <button class="gps-button tooltip">
+            <GPSIcon class="gps-icon"/>
+            <span class="tooltiptext">Get current loaction</span>
+          </button>
         </div>
 
         <TextInputForm placeholder="Enter a starting point" v-model="searchStore.startLocation"/>
@@ -63,7 +71,8 @@ const submitFormData = () => {
         <TransportTypeButtons/>
       </div>
 
-      <div class="date-pick-cont">
+      <div class="date-pick-cont tooltip">
+        <span class="tooltiptext">Leave blank to use current time</span>
         <p class="form-item-label-second-row">Departure time (optional)</p>
         <DateTimePicker/>
       </div>
@@ -127,6 +136,33 @@ const submitFormData = () => {
   margin-right: 5px;
 
 }
+
+.gps-button {
+  margin-left: auto;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: var(--border-rad-main);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all ease-in-out 0.1s;
+}
+
+.gps-button:hover {
+  background-color: var(--primary-500);
+  filter: brightness(1.1);
+}
+
+.gps-icon {
+  color: var(--primary-100);
+  width: 30px;
+  height: 30px;
+}
+
 
 
 /* connection line with icon */

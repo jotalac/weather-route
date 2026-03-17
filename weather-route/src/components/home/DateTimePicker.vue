@@ -38,9 +38,9 @@ const maxDateTime = computed(() => {
     :value="searchStore.departureTime"
     :min="minDateTime"
     :max="maxDateTime"
-    class="datetime-input"
+    class="datetime-input "
     @input="searchStore.setDepartureTime(($event.target as HTMLInputElement).value)"
-  />
+  >
 </template>
 
 <style scoped>
