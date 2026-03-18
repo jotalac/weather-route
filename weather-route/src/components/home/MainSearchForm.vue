@@ -89,12 +89,14 @@ const validateFormInputs = async () => {
   }
 }
 
-const gpsButtonClicked = async () => {
+const findUserLocation = async () => {
   try {
     const coords = await getUserLocation()
     searchStore.startLocation = coords
     toast.success("GPS location found")
+    startInputError.value = ""
   } catch (error) {
+    startInputError.value = "Invalid starting location"
     toast.error(`Failed to get location data: ${error}`)
   }
 }
@@ -112,7 +114,7 @@ const gpsButtonClicked = async () => {
           <LocationIcon class="input-icon"/>
           <p class="form-item-label">Start location</p>
 
-          <button class="gps-button tooltip" @click="gpsButtonClicked" type="button">
+          <button class="gps-button tooltip" @click="findUserLocation" type="button">
             <GPSIcon class="gps-icon"/>
             <span class="tooltiptext">Get current loaction</span>
           </button>
