@@ -1,7 +1,64 @@
 <script setup lang="ts">
+import type { TransportMode } from '@/types';
+import ActionButton from '../ActionButton.vue';
 import CarIcon from '../icons/CarIcon.vue';
 import FlagIcon from '../icons/FlagIcon.vue';
 import LocationIcon from '../icons/LocationIcon.vue';
+import WalkIcon from '../icons/WalkIcon.vue';
+import BikeIcon from '../icons/BikeIcon.vue';
+
+interface Props {
+  startLocation: string,
+  destination: string,
+  transportMode: TransportMode,
+  searchDateTime: string
+}
+
+const props = defineProps<Props>()
+
+const transportIcons = {
+  car: CarIcon,
+  walk: WalkIcon,
+  bike: BikeIcon
+}
+
+
+// create the text label that will say time passed (execArgv. 1 minute argon2, 10 months arg, ...)
+const getRelativeTime = (dateStr: string) => {
+  // replace the underscore with 'T' to make it a standard ISO 8601 string (e.g., "2025-04-01T11:23")
+  const standardDateStr = dateStr.replace('_', 'T');
+  const past = new Date(standardDateStr).getTime();
+  const now = Date.now();
+
+  // difference in seconds
+  const elapsedSeconds = Math.floor((now - past) / 1000);
+
+  // if the date is in the future or exactly now
+  if (elapsedSeconds <= 0) return 'just now';
+
+  // time intervals in seconds
+  const intervals = [
+    { label: 'year', seconds: 31536000 },
+    { label: 'month', seconds: 2592000 },
+    { label: 'day', seconds: 86400 },
+    { label: 'hour', seconds: 3600 },
+    { label: 'minute', seconds: 60 }
+  ];
+
+  // loop through intervals to find the largest fitting unit
+  for (const interval of intervals) {
+    const count = Math.floor(elapsedSeconds / interval.seconds);
+    if (count >= 1) {
+      return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`;
+    }
+  }
+
+  // fallback for anything less than a minute
+  return 'just now';
+};
+
+const displayTime = getRelativeTime(props.searchDateTime);
+
 
 </script>
 
@@ -11,18 +68,22 @@ import LocationIcon from '../icons/LocationIcon.vue';
 
       <div class="location-icon-cont">
         <LocationIcon/>
-        <p>Start location</p>
+        <p>{{ startLocation }}</p>
       </div>
 
       <div class="location-icon-cont">
         <FlagIcon/>
-        <p>Destination</p>
+        <p>{{ destination }}</p>
       </div>
 
-      <CarIcon/>
     </div>
 
-    <p>2025-04-01_11:23</p>
+    <div class="transport-date-cont">
+      <component :is="transportIcons[transportMode]" class="dynamic-transport-icon"/>
+      <p>{{ displayTime }}</p>
+    </div>
+
+    <ActionButton button-text="USE" class="use-button"/>
 
   </div>
 </template>
@@ -31,11 +92,16 @@ import LocationIcon from '../icons/LocationIcon.vue';
 <style scoped>
 .search-history-item {
   width: 300px;
-  height: 150px;
+  flex-shrink: 0;
   border-radius: var(--border-rad-main);
-  background-color: rgba(1, 9, 23, 0.707);
+  background-color: rgba(1, 9, 23, 0.612);
   padding: 20px 15px;
-  border: 1px var(--primary-250) solid;
+  transition: all 0.2s ease-in-out;
+}
+
+.search-history-item:hover {
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.249);
+  width: 320px;
 }
 
 .start-destination-cont {
@@ -55,6 +121,24 @@ import LocationIcon from '../icons/LocationIcon.vue';
 .location-icon-cont svg {
   margin-right: 10px;
   color: var(--primary-250);
+}
+
+
+.transport-date-cont{
+  display: flex;
+  gap: 10px;
+}
+
+.transport-date-cont p {
+  color: var(--gray-500);
+}
+
+.transport-date-cont svg {
+  color: var(--primary-100);
+}
+
+.use-button {
+  margin-top: 20px;
 }
 
 </style>

@@ -3,7 +3,13 @@ import MainSearchForm from '@/components/home/MainSearchForm.vue';
 import SearchHistoryItem from '@/components/home/SearchHistoryItem.vue';
 import HistoryIcon from '@/components/icons/HistoryIcon.vue';
 import WeatherIcon from '@/components/icons/WeatherIcon.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
+
+const formSubmit = () => {
+  router.push("about")
+}
 
 </script>
 
@@ -17,20 +23,28 @@ import WeatherIcon from '@/components/icons/WeatherIcon.vue';
       </span>
       on your journey
     </h1>
-    <MainSearchForm/>
+    <MainSearchForm v-on:form-submitted="formSubmit"/>
 
     <div class="search-history-cont">
-      <h2>
-        <HistoryIcon class="header-icon"/>
-        Search history
-      </h2>
+        <div class="search-history-title">
+          <h2>
+            <HistoryIcon class="header-icon"/>
+            Search history
+          </h2>
+
+          <RouterLink to="/about" class="full-history-link">View full histroy</RouterLink>
+        </div>
+
 
       <div class="history-items-cont">
-        <SearchHistoryItem/>
-        <SearchHistoryItem/>
-        <SearchHistoryItem/>
-        <SearchHistoryItem/>
-        <SearchHistoryItem/>
+        <!-- sample - needs to get data from local storage and display it as this history, limit it to like 10 items -->
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-03-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="car" search-date-time="2026-01-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="walk" search-date-time="2026-02-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-10-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="car" search-date-time="2026-01-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-05-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="walk" search-date-time="2023-01-11T02:54"/>
       </div>
     </div>
 
@@ -66,9 +80,11 @@ import WeatherIcon from '@/components/icons/WeatherIcon.vue';
 
 .search-history-cont {
   width: 100%;
+  max-width: 100vw;
   overflow-x: scroll;
   color: var(--primary-100);
   margin-top: 50px;
+  padding: 0 20px;
 }
 
 .history-items-cont{
@@ -76,19 +92,33 @@ import WeatherIcon from '@/components/icons/WeatherIcon.vue';
   width: 100%;
   overflow-x: scroll;
   gap: 20px;
+  padding-bottom: 20px;
 }
 
 .search-history-cont h2 {
   display: flex;
   align-items: center;
   justify-content: start;
-  margin-bottom: 15px;
 }
 
 .header-icon {
   width: 40px;
   height: 40px;
   margin-right: 10px;
+}
+
+.search-history-title{
+  max-width: 90%;
+  margin-bottom: 20px;
+}
+
+.full-history-link{
+  text-decoration: underline;
+  color: var(--primary-250);
+}
+
+.full-history-link:hover {
+  filter: brightness(1.2);
 }
 
 

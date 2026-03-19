@@ -16,7 +16,7 @@ export async function fetchLocationFromCoords(lat: number, lon: number): Promise
 
 export async function fetchCoordsFromLocation(locationName: string): Promise<{ lat: number; lon: number } | null> {
   // Added &countrycodes=cz to restrict to Czechia, which can sometimes help the engine guess better
-  const url = baseUrl + `/search?q=${encodeURIComponent(locationName)}&format=json&limit=1&countrycodes=cz`;
+  const url = baseUrl + `/search?q=${encodeURIComponent(locationName)}&format=json&limit=1`;
 
   try{
     const data = await apiClient<any>(url);

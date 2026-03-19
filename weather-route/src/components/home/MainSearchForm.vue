@@ -8,13 +8,17 @@ import WalkIcon from '../icons/WalkIcon.vue';
 import BikeIcon from '../icons/BikeIcon.vue';
 import CarSideIcon from '../icons/CarSideIcon.vue';
 import DateTimePicker from './DateTimePicker.vue';
-import ActionButton from '../ActionButton.vue';
+import ActionButton from '../MainButton.vue';
 import { toast } from 'vue3-toastify';
 import GPSIcon from '../icons/GPSIcon.vue';
 import { useGeolocationAPI } from '@/composables/useGeolocationAPI';
 import { fetchCoordsFromLocation } from '@/api/geolocationApi';
 import {ref} from 'vue'
 import { storeToRefs } from 'pinia';
+
+const emits = defineEmits<{
+  formSubmitted: []
+}>()
 
 const searchStore = useSearchStore();
 const {
@@ -56,6 +60,8 @@ const submitFormData = async (e: Event) => {
 
   toast.success("Form submitted!")
   buttonsDisabled.value = false
+
+  emits('formSubmitted')
 }
 
 const validateFormInputs = async () => {
