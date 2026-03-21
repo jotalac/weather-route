@@ -11,7 +11,7 @@ export const useSearchStore = defineStore("search", () => {
   const startCoords = ref<{lat: number|null, lon: number|null}>({lat: null, lon: null})
   const endCoords = ref<{lat: number|null, lon: number|null}>({lat: null, lon: null})
 
-  const departureTime = ref('')
+  const departureTime = ref<string | null>(null)
 
   const searchPrecision = ref<SearchPrecision>('medium')
 

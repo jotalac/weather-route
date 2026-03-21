@@ -34,7 +34,6 @@ export async function fetchWeatherRouteData(routePoints: Array<RoutePoint>, star
   try {
     const data = await apiClient<any>(url)
 
-    console.log("weather data", data)
     return data;
   } catch (error) {
     console.log("error getting weather route data", error)

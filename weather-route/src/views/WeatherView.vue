@@ -4,8 +4,9 @@ import { fetchRoute } from '@/api/osrmApi';
 import LoadingIcon from '@/components/icons/LoadingIcon.vue';
 import RouteMap from '@/components/weather/RouteMap.vue';
 import { useSearchStore } from '@/stores/searchStore';
-import type { RoutePoint } from '@/types';
+import type { RoutePoint, WeatherPoint } from '@/types';
 import { extractRoutePoints } from '@/utils/routePointsHandler';
+import { extractWeatherPoints } from '@/utils/weatherPointsHandler';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {toast} from 'vue3-toastify'
@@ -18,7 +19,11 @@ const routePoints = ref<Array<RoutePoint>>([])
 const totalDistance = ref<number | null>(null) //distance in meters
 const totalDuration = ref<number | null>(null) // duration in seconds
 
+const weatherPoints = ref<Array<WeatherPoint>>([])
+
+//loading states
 const isLoading = ref(true)
+const loadingMsg = ref("")
 
 //load all data
 onMounted(async () => {
@@ -28,7 +33,10 @@ onMounted(async () => {
     return
   }
 
+  loadingMsg.value = "Fetching route..."
   await getRouteData()
+
+  loadingMsg.value = "Fetching weather data..."
   await getWeatherData()
 
   isLoading.value = false;
@@ -65,6 +73,14 @@ async function getRouteData() {
 async function getWeatherData() {
   const responseData = await fetchWeatherRouteData(routePoints.value, searchStore.departureTime)
 
+  if (responseData.length === 0) {
+    returnHomeWithErrorToast("Error getting weather data")
+    return
+  }
+
+  //convert the data to the correct format
+  weatherPoints.value = await extractWeatherPoints(responseData, routePoints.value, searchStore.departureTime)
+  console.log("Extracted weather points", weatherPoints.value)
 }
 
 
@@ -90,13 +106,19 @@ function returnHomeWithErrorToast (message: string) {
 
     <div v-if="isLoading" class="loading-cont">
       <LoadingIcon class="loading-icon"/>
-      <p>Fetching weather data...</p>
+      <p>{{ loadingMsg }}</p>
     </div>
 
     <!-- Group the map rendering inside its own div to avoid v-else issues -->
     <div v-else class="content-container">
+      <div v-for="(weatherPoint, index) in weatherPoints" :key="index">
+        <p>{{ weatherPoint.weather }}</p>
+
+      </div>
+
       <RouteMap :routePoints="routePoints" />
-      <p>Duration: {{ totalDuration / (60 * 60 * 24)}}</p>
+
+
     </div>
   </main>
 
@@ -112,7 +134,6 @@ function returnHomeWithErrorToast (message: string) {
 }
 .content-container {
   width: 100%;
-  display: flex;
 }
 
 /* loading content */
