@@ -1,4 +1,4 @@
-import { fetchLocationFromCoords } from '@/api/geolocationApi';
+import { fetchLocationFromCoords } from '@/api/nominatimApi';
 import { ref } from 'vue'
 
 export function useGeolocationAPI () {

@@ -8,7 +8,6 @@ export async function apiClient<T>(url: string, options: RequestInit = {}): Prom
     }
   })
 
-  console.log(response)
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status}`)
   }

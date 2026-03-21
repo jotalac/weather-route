@@ -4,7 +4,7 @@ import { computed } from 'vue';
 
 const searchStore = useSearchStore()
 
-const maxSearchDays = 16
+const maxSearchDays = 14
 
 // min time is now, max time is 16 days from now
 const formatDateTime = (date: Date) => {

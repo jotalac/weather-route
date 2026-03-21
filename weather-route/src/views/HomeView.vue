@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 const formSubmit = () => {
-  router.push("about")
+  router.push("weather")
 }
 
 </script>
@@ -32,7 +32,7 @@ const formSubmit = () => {
             Search history
           </h2>
 
-          <RouterLink to="/about" class="full-history-link">View full histroy</RouterLink>
+          <RouterLink to="/history" class="full-history-link">View full histroy</RouterLink>
         </div>
 
 
@@ -40,11 +40,11 @@ const formSubmit = () => {
         <!-- sample - needs to get data from local storage and display it as this history, limit it to like 10 items -->
         <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-03-11T02:54"/>
         <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="car" search-date-time="2026-01-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="walk" search-date-time="2026-02-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="foot" search-date-time="2026-02-11T02:54"/>
         <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-10-11T02:54"/>
         <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="car" search-date-time="2026-01-11T02:54"/>
         <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-05-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="walk" search-date-time="2023-01-11T02:54"/>
+        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="foot" search-date-time="2023-01-11T02:54"/>
       </div>
     </div>
 

@@ -1,17 +1,19 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { TransportMode } from "@/types";
+import { type SearchPrecision, type TransportMode } from "@/types";
 
 export const useSearchStore = defineStore("search", () => {
   //states
   const transportMode = ref<TransportMode>('car');
-  const startLocation = ref('')
-  const endLocation = ref('')
+  const startLocation = ref('Praha')
+  const endLocation = ref('Brno')
 
   const startCoords = ref<{lat: number|null, lon: number|null}>({lat: null, lon: null})
   const endCoords = ref<{lat: number|null, lon: number|null}>({lat: null, lon: null})
 
   const departureTime = ref('')
+
+  const searchPrecision = ref<SearchPrecision>('medium')
 
   //action
   const setTransportMode = (mode: TransportMode) => {
@@ -40,6 +42,7 @@ export const useSearchStore = defineStore("search", () => {
     departureTime,
     startCoords,
     endCoords,
+    searchPrecision,
     setTransportMode,
     setDepartureTime,
     resetAllValues

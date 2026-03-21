@@ -21,8 +21,8 @@ const searchStore = useSearchStore();
 
     <button
       class="transport-type-button"
-      :class="{selected: searchStore.transportMode === 'walk'}"
-      @click="searchStore.setTransportMode('walk')"
+      :class="{selected: searchStore.transportMode === 'foot'}"
+      @click="searchStore.setTransportMode('foot')"
       type="button"
     >
       <WalkIcon  class="transport-type-icon"/>

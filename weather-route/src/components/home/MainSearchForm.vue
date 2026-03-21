@@ -9,12 +9,13 @@ import BikeIcon from '../icons/BikeIcon.vue';
 import CarSideIcon from '../icons/CarSideIcon.vue';
 import DateTimePicker from './DateTimePicker.vue';
 import ActionButton from '../MainButton.vue';
-import { toast } from 'vue3-toastify';
+import { Slide, toast } from 'vue3-toastify';
 import GPSIcon from '../icons/GPSIcon.vue';
 import { useGeolocationAPI } from '@/composables/useGeolocationAPI';
-import { fetchCoordsFromLocation } from '@/api/geolocationApi';
+import { fetchCoordsFromLocation } from '@/api/nominatimApi';
 import {ref} from 'vue'
 import { storeToRefs } from 'pinia';
+import PrecisionSlider from './PrecisionSlider.vue';
 
 const emits = defineEmits<{
   formSubmitted: []
@@ -36,7 +37,7 @@ const endInputError = ref('')
 
 const transportIcons = {
   car: CarSideIcon,
-  walk: WalkIcon,
+  foot: WalkIcon,
   bike: BikeIcon
 }
 
@@ -58,7 +59,6 @@ const submitFormData = async (e: Event) => {
     return
   }
 
-  toast.success("Form submitted!")
   buttonsDisabled.value = false
 
   emits('formSubmitted')
@@ -144,6 +144,7 @@ const findUserLocation = async () => {
     </div>
 
     <div class="form-second-row-cont">
+
       <div class="transport-type-cont">
         <p class="form-item-label-second-row">Transport type</p>
         <TransportTypeButtons/>
@@ -156,6 +157,9 @@ const findUserLocation = async () => {
       </div>
 
     </div>
+
+    <PrecisionSlider />
+
 
     <div class="buttons-cont">
       <ActionButton :button-text="'Reset'" :button-type="'reset'" :button-disabled="buttonsDisabled"/>
@@ -300,7 +304,7 @@ const findUserLocation = async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 @media (max-width: 800px) {

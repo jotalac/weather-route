@@ -18,7 +18,7 @@ const props = defineProps<Props>()
 
 const transportIcons = {
   car: CarIcon,
-  walk: WalkIcon,
+  foot: WalkIcon,
   bike: BikeIcon
 }
 
