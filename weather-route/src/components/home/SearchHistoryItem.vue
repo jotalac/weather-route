@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { TransportMode } from '@/types';
 import ActionButton from '../ActionButton.vue';
-import CarIcon from '../icons/CarIcon.vue';
 import FlagIcon from '../icons/FlagIcon.vue';
 import LocationIcon from '../icons/LocationIcon.vue';
-import WalkIcon from '../icons/WalkIcon.vue';
-import BikeIcon from '../icons/BikeIcon.vue';
+import { transportIconsMapper } from '@/utils/util';
 
 interface Props {
   startLocation: string,
@@ -15,12 +13,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const transportIcons = {
-  car: CarIcon,
-  foot: WalkIcon,
-  bike: BikeIcon
-}
 
 
 // create the text label that will say time passed (execArgv. 1 minute argon2, 10 months arg, ...)
@@ -79,7 +71,7 @@ const displayTime = getRelativeTime(props.searchDateTime);
     </div>
 
     <div class="transport-date-cont">
-      <component :is="transportIcons[transportMode]" class="dynamic-transport-icon"/>
+      <component :is="transportIconsMapper(transportMode)" class="dynamic-transport-icon"/>
       <p>{{ displayTime }}</p>
     </div>
 

@@ -1,30 +1,12 @@
-import { fetchLocationFromCoords } from "@/api/nominatimApi";
 import type { RoutePoint, WeatherPoint } from "@/types";
-
-const numberOfNamedWeatherPoints = 4
 
 export async function extractWeatherPoints(rawData: Array<any>, routePoints: Array<RoutePoint>, departureTimeStr: string | null): Array<WeatherPoint> {
   const result: Array<WeatherPoint> = []
-  const totalPoints = rawData.length;
-
-
-  //get for which points we should fetch the name
-  const nameIndices = new Set<number>();
-  const step = (totalPoints - 1) / (numberOfNamedWeatherPoints + 1);
-
-  for (let k = 1; k <= numberOfNamedWeatherPoints; k++) {
-    const index = Math.round(k * step);
-    if (index > 0 && index < totalPoints - 1) {
-      nameIndices.add(index);
-    }
-  }
-
 
   //calculate the starting time
   const baseDepartureTime = (departureTimeStr && departureTimeStr !== '')
   ? new Date(departureTimeStr).getTime() : Date.now()
 
-  const nameFetchStep = Math.round(routePoints.length / (numberOfNamedWeatherPoints + 1))
 
   //add data for each point on the route
   for (let i = 0; i < rawData.length; i++) {
@@ -32,7 +14,7 @@ export async function extractWeatherPoints(rawData: Array<any>, routePoints: Arr
     const locationWeather = rawData[i]
 
     //find the correct weather record for the exact time arrival
-    const predictedArrivalTimeMs = baseDepartureTime + (routePoint.travelTimeSeconds * 1000)
+    const predictedArrivalTimeMs = baseDepartureTime + (routePoint!.travelTimeSeconds * 1000)
     const hourlyTimesArray = locationWeather.hourly.time;
     const firstForecastTimeMs = new Date(hourlyTimesArray[0]).getTime();
     const timeDifferenceMs = predictedArrivalTimeMs - firstForecastTimeMs;
@@ -41,17 +23,10 @@ export async function extractWeatherPoints(rawData: Array<any>, routePoints: Arr
     // make sure that we dont get invalid index
     closestTimeIndex = Math.max(0, Math.min(closestTimeIndex, hourlyTimesArray.length - 1));
 
-
-    //get name for specified number of points
-    let locationPointName = null
-    if (nameIndices.has(i)) {
-      locationPointName = await fetchLocationFromCoords(routePoint.lat, routePoint.lon)
-    }
-
     const hourly = locationWeather.hourly
 
     result.push({
-      locationName: locationPointName,
+      locationName: null,
       elevation: locationWeather.elevation,
       weather: {
         temerature: hourly.temperature_2m[closestTimeIndex],

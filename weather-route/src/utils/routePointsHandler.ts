@@ -43,7 +43,7 @@ export function extractRoutePoints(osrmData: any, precistion: SearchPrecision): 
     result.push({
       lon: coords[index][0],
       lat: coords[index][1],
-      travelTimeSeconds: Math.round(timeAtPoint[index])
+      travelTimeSeconds: Math.round(timeAtPoint[index]!)
     })
   }
 
