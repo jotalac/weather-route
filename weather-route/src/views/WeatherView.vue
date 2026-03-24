@@ -4,7 +4,7 @@ import { fetchRoute } from '@/api/osrmApi';
 import LoadingIcon from '@/components/icons/LoadingIcon.vue';
 import RouteMap from '@/components/weather/RouteMap.vue';
 import { useSearchStore } from '@/stores/searchStore';
-import type { RoutePoint, WeatherPoint } from '@/types';
+import type { RoutePoint, SearchHistoryItem, WeatherPoint } from '@/types';
 import { extractRoutePoints } from '@/utils/routePointsHandler';
 import { extractWeatherPoints } from '@/utils/weatherPointsHandler';
 import { onMounted, ref } from 'vue';
@@ -17,6 +17,7 @@ import { fetchLocationFromCoords } from '@/api/nominatimApi';
 import RouteOverview from '@/components/weather/RouteOverview.vue';
 import ReturnIcon from '@/components/icons/ReturnIcon.vue';
 import { createMapyCzLink } from '@/utils/util';
+import { saveSearchToHistory } from '@/utils/searchHistoryFunctions';
 
 const searchStore = useSearchStore()
 const router = useRouter()
@@ -55,12 +56,25 @@ onMounted(async () => {
   loadingMsg.value = "Fetching location names..."
   await getRequieredLocationNames()
 
+  saveItemToHistory()
 
 
   isLoading.value = false;
 })
 
 // === functions ===
+function saveItemToHistory() {
+  const saveData: SearchHistoryItem = {
+    start: {name: searchStore.startLocation, lat: searchStore.startCoords.lat!, lon: searchStore.startCoords.lat!},
+    end: {name: searchStore.endLocation, lat: searchStore.endCoords.lat!, lon: searchStore.endCoords.lat!},
+    transportMode: searchStore.transportMode,
+    timeStamp: new Date().toISOString()
+  }
+
+  saveSearchToHistory(saveData)
+  console.log("Item saved to search history")
+}
+
 const handlePointSelected = (index: number) => {
   selectedRoutePoint.value = routePoints.value[index]!
 

@@ -1,14 +1,31 @@
 <script setup lang="ts">
 import MainSearchForm from '@/components/home/MainSearchForm.vue';
-import SearchHistoryItem from '@/components/home/SearchHistoryItem.vue';
 import HistoryIcon from '@/components/icons/HistoryIcon.vue';
 import WeatherIcon from '@/components/icons/WeatherIcon.vue';
+import { useSearchStore } from '@/stores/searchStore';
+import type { SearchHistoryItem } from '@/types';
+import { getSearchHistory, HOME_PAGE_HISTORY_ITEMS } from '@/utils/searchHistoryFunctions';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+
+const searchStore = useSearchStore()
 
 const router = useRouter()
 
 const formSubmit = () => {
   router.push("weather")
+}
+
+const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
+
+function useHistoryItem(historyItem: SearchHistoryItem) {
+  searchStore.startLocation = historyItem.start.name
+  searchStore.startCoords = {lat: historyItem.start.lat, lon: historyItem.start.lon}
+
+  searchStore.endLocation = historyItem.end.name
+  searchStore.endCoords = {lat: historyItem.end.lat, lon: historyItem.end.lon}
+
+  searchStore.transportMode = historyItem.transportMode
 }
 
 </script>
@@ -25,7 +42,7 @@ const formSubmit = () => {
     </h1>
     <MainSearchForm v-on:form-submitted="formSubmit"/>
 
-    <div class="search-history-cont">
+    <div v-if="historyItems.length !== 0" class="search-history-cont">
         <div class="search-history-title">
           <h2>
             <HistoryIcon class="header-icon"/>
@@ -36,15 +53,9 @@ const formSubmit = () => {
         </div>
 
 
+
       <div class="history-items-cont">
-        <!-- sample - needs to get data from local storage and display it as this history, limit it to like 10 items -->
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-03-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="car" search-date-time="2026-01-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="foot" search-date-time="2026-02-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-10-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="car" search-date-time="2026-01-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="bike" search-date-time="2026-05-11T02:54"/>
-        <SearchHistoryItem start-location="Prague" destination="Brno" transport-mode="foot" search-date-time="2023-01-11T02:54"/>
+        <SearchHistoryItem v-for="historyItem in historyItems" :key="historyItem.timeStamp" @use-item="useHistoryItem(historyItem)" :start-location="historyItem.start.name" :destination="historyItem.end.name" :transport-mode="historyItem.transportMode" :search-date-time="historyItem.timeStamp"/>
       </div>
     </div>
 

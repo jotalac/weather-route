@@ -6,6 +6,13 @@ export type ButtonType = 'submit' | 'cancel' | 'reset'
 
 export type RoutePoint = {lat: number, lon: number, travelTimeSeconds: number}
 
+export type SearchHistoryItem = {
+  start: {name: string, lat: number, lon: number},
+  end: {name: string, lat: number, lon: number},
+  transportMode: TransportMode,
+  timeStamp: string
+}
+
 export type WeatherPoint = {
   locationName: string | null,
   elevation: number,

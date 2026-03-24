@@ -14,9 +14,14 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const emit = defineEmits<{
+  useItem: []
+}>()
+
 
 // create the text label that will say time passed (execArgv. 1 minute argon2, 10 months arg, ...)
 const getRelativeTime = (dateStr: string) => {
+  if (!dateStr) return 'unknown'; // fallback if no date is provided
   // replace the underscore with 'T' to make it a standard ISO 8601 string (e.g., "2025-04-01T11:23")
   const standardDateStr = dateStr.replace('_', 'T');
   const past = new Date(standardDateStr).getTime();
@@ -51,7 +56,6 @@ const getRelativeTime = (dateStr: string) => {
 
 const displayTime = getRelativeTime(props.searchDateTime);
 
-
 </script>
 
 <template>
@@ -60,12 +64,12 @@ const displayTime = getRelativeTime(props.searchDateTime);
 
       <div class="location-icon-cont">
         <LocationIcon/>
-        <p>{{ startLocation }}</p>
+        <p class="location-text">{{ startLocation }}</p>
       </div>
 
       <div class="location-icon-cont">
         <FlagIcon/>
-        <p>{{ destination }}</p>
+        <p class="location-text">{{ destination }}</p>
       </div>
 
     </div>
@@ -75,7 +79,7 @@ const displayTime = getRelativeTime(props.searchDateTime);
       <p>{{ displayTime }}</p>
     </div>
 
-    <ActionButton button-text="USE" class="use-button"/>
+    <ActionButton button-text="USE" class="use-button" @click="emit('useItem')"/>
 
   </div>
 </template>
@@ -106,6 +110,14 @@ const displayTime = getRelativeTime(props.searchDateTime);
   margin-bottom: 10px;
 }
 
+.location-text{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .location-icon-cont p {
   color: var(--primary-100);
 }
@@ -113,6 +125,7 @@ const displayTime = getRelativeTime(props.searchDateTime);
 .location-icon-cont svg {
   margin-right: 10px;
   color: var(--primary-250);
+  flex-shrink: 0;
 }
 
 
