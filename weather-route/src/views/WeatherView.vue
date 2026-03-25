@@ -18,6 +18,7 @@ import RouteOverview from '@/components/weather/RouteOverview.vue';
 import ReturnIcon from '@/components/icons/ReturnIcon.vue';
 import { createMapyCzLink } from '@/utils/util';
 import { saveSearchToHistory } from '@/utils/searchHistoryFunctions';
+import DepartureArrivalLine from '@/components/weather/DepartureArrivalLine.vue';
 
 const searchStore = useSearchStore()
 const router = useRouter()
@@ -236,6 +237,8 @@ function navigateBack() {
           </div>
         </div>
 
+        <DepartureArrivalLine :start-date-time="searchStore.departureTime" :duration-seconds="totalDuration!"/>
+
         <RouteMap
           id="route-map-element"
           :routePoints="routePoints"
@@ -306,7 +309,7 @@ function navigateBack() {
 }
 
 .weather-list-wrapper {
-  background-color: rgba(1, 9, 23, 0.4);
+  background-color: var(--transparent-dark);
   border-radius: var(--border-rad-big);
   padding: 20px;
   display: flex;

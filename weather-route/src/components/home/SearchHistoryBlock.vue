@@ -19,10 +19,10 @@ const emit = defineEmits<{
 }>()
 
 
-// create the text label that will say time passed (execArgv. 1 minute argon2, 10 months arg, ...)
+
 const getRelativeTime = (dateStr: string) => {
-  if (!dateStr) return 'unknown'; // fallback if no date is provided
-  // replace the underscore with 'T' to make it a standard ISO 8601 string (e.g., "2025-04-01T11:23")
+  if (!dateStr) return 'unknown';
+
   const standardDateStr = dateStr.replace('_', 'T');
   const past = new Date(standardDateStr).getTime();
   const now = Date.now();
@@ -50,7 +50,6 @@ const getRelativeTime = (dateStr: string) => {
     }
   }
 
-  // fallback for anything less than a minute
   return 'just now';
 };
 

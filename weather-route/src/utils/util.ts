@@ -21,6 +21,8 @@ export function formatTime(seconds: number): string {
   return `${minutes}m`;
 };
 
+
+
 type seznamLocation = {lat: number | null, lon: number | null}
 export function createMapyCzLink(transportType: TransportMode, startLocation: seznamLocation, endLocation: seznamLocation) {
   const baseUrl = "https://mapy.com/fnc/v1/route"

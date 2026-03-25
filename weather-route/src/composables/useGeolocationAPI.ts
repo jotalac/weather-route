@@ -14,23 +14,36 @@ export function useGeolocationAPI () {
 
       navigator.geolocation.getCurrentPosition(
         async (position) => {
-          const lat = position.coords.latitude
-          const lon = position.coords.longitude
+          try {
+            const lat = position.coords.latitude
+            const lon = position.coords.longitude
 
-          const address = await fetchLocationFromCoords(lat, lon)
+            const address = await fetchLocationFromCoords(lat, lon)
 
-          if (address == null) {
-            error.value = "Fetched address is null"
+            if (address == null) {
+              error.value = "Fetched address is null"
+              console.error(error.value)
+              reject(error.value)
+            }
+
+            const display_address = address || ""
+            resolve(display_address)
+          } catch (e: any) {
+            error.value = e.message || "Failed to fetch address"
             console.error(error.value)
             reject(error.value)
           }
 
-          const display_address = address || ""
-          resolve(display_address)
         },
         (err) => {
           error.value = err.message
           reject(err.message)
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 10000,
+          timeout: 5000
+
         }
       )
     })

@@ -39,7 +39,7 @@ function getFormattedDistance(): string {
   justify-content: center;
   margin-top: 10px;
   gap: 50px;
-  background-color: rgba(1, 9, 23, 0.4);
+  background-color: var(--transparent-dark);
   padding: 10px;
   border-radius: var(--border-rad-main);
   color: var(--primary-100);

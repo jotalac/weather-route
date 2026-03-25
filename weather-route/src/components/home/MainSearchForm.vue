@@ -95,7 +95,9 @@ const validateFormInputs = async () => {
   }
 }
 
+const locationLoading = ref(false)
 const findUserLocation = async () => {
+  locationLoading.value = true
   try {
     const coords = await getUserLocation()
     searchStore.startLocation = coords
@@ -105,6 +107,9 @@ const findUserLocation = async () => {
     startInputError.value = "Invalid starting location"
     toast.error(`Failed to get location data: ${error}`)
   }
+
+  locationLoading.value = false
+
 }
 
 </script>
@@ -120,7 +125,7 @@ const findUserLocation = async () => {
           <LocationIcon class="input-icon"/>
           <p class="form-item-label">Start location</p>
 
-          <button class="gps-button tooltip" @click="findUserLocation" type="button">
+          <button class="gps-button tooltip" @click="findUserLocation" type="button" :disabled="locationLoading">
             <GPSIcon class="gps-icon"/>
             <span class="tooltiptext">Get current loaction</span>
           </button>
@@ -237,6 +242,10 @@ const findUserLocation = async () => {
 .gps-button:hover {
   background-color: var(--primary-500);
   filter: brightness(1.1);
+}
+
+.gps-button:disabled {
+  filter: brightness(0.8);
 }
 
 .gps-icon {
