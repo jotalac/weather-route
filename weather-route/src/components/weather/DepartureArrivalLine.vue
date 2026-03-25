@@ -1,14 +1,32 @@
 <script setup lang="ts">
 import CalendarIcon from '../icons/CalendarIcon.vue';
-
+import { computed } from 'vue';
 
 const props = defineProps<{
   startDateTime: string
   durationSeconds: number
 }>()
 
-const startTimeFormatted = props.startDateTime === '' ? new Date.toISOString(). : props.startDateTime
-const endTimeFormatted = props.durationSeconds
+const dateFormatOptions: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+};
+
+const startDate = computed(() => {
+  return props.startDateTime ? new Date(props.startDateTime) : new Date();
+});
+
+const startTimeFormatted = computed(() => {
+  return startDate.value.toLocaleString(undefined, dateFormatOptions);
+});
+
+const endTimeFormatted = computed(() => {
+  const endDate = new Date(startDate.value.getTime() + props.durationSeconds * 1000);
+  return endDate.toLocaleString(undefined, dateFormatOptions);
+});
 
 
 </script>
@@ -57,6 +75,14 @@ const endTimeFormatted = props.durationSeconds
 
 .item-title {
   font-weight: bold;
+}
+
+@media (max-width: 800px) {
+  .departure-arrival-cont {
+    flex-direction: column;
+    gap: 20px;
+    align-items: start;
+  }
 }
 
 
