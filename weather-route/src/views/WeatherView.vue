@@ -19,6 +19,7 @@ import ReturnIcon from '@/components/icons/ReturnIcon.vue';
 import { createMapyCzLink } from '@/utils/util';
 import { saveSearchToHistory } from '@/utils/searchHistoryFunctions';
 import DepartureArrivalLine from '@/components/weather/DepartureArrivalLine.vue';
+import BackgroundVideo from '@/components/BackgroundVideo.vue';
 
 const searchStore = useSearchStore()
 const router = useRouter()
@@ -193,6 +194,9 @@ function navigateBack() {
 
     <!-- display weather data -->
     <div v-else class="content-container">
+        <!-- background video -->
+        <BackgroundVideo :weather-code="weatherPoints[0]?.weather.weatherCode!"/>
+
 
       <!-- back button -->
       <button class="back-button-cont" @click="navigateBack">
@@ -237,7 +241,7 @@ function navigateBack() {
           </div>
         </div>
 
-        <DepartureArrivalLine :start-date-time="searchStore.departureTime" :duration-seconds="totalDuration!"/>
+        <DepartureArrivalLine :start-date-time="searchStore.departureTime!" :duration-seconds="totalDuration!"/>
 
         <RouteMap
           id="route-map-element"

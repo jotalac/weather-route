@@ -18,6 +18,7 @@
     justify-content: start;
     align-items: center;
     position: relative;
+    z-index: 0; /* Creates a stacking context so negative z-index children sit above the background but behind content */
 
     background-color: black;
     background-color: var(--primary-1500);

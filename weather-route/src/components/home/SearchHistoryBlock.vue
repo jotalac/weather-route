@@ -1,23 +1,37 @@
 <script setup lang="ts">
-import type { TransportMode } from '@/types';
+import type { SearchHistoryItem } from '@/types';
 import ActionButton from '../ActionButton.vue';
 import FlagIcon from '../icons/FlagIcon.vue';
 import LocationIcon from '../icons/LocationIcon.vue';
 import { transportIconsMapper } from '@/utils/util';
+import { useSearchStore } from '@/stores/searchStore';
+import { toast } from 'vue3-toastify';
 
 interface Props {
-  startLocation: string,
-  destination: string,
-  transportMode: TransportMode,
-  searchDateTime: string
+  historyItem: SearchHistoryItem
 }
 
 const props = defineProps<Props>()
 
+const searchStore = useSearchStore()
+
 const emit = defineEmits<{
-  useItem: []
+  itemUsed: []
 }>()
 
+function useHistoryItem() {
+  searchStore.startLocation = props.historyItem.start.name
+  searchStore.startCoords = {lat: props.historyItem.start.lat, lon: props.historyItem.start.lon}
+
+  searchStore.endLocation = props.historyItem.end.name
+  searchStore.endCoords = {lat: props.historyItem.end.lat, lon: props.historyItem.end.lon}
+
+  searchStore.transportMode = props.historyItem.transportMode
+
+  toast.info("Form values updated", {autoClose: 500})
+
+  emit("itemUsed")
+}
 
 
 const getRelativeTime = (dateStr: string) => {
@@ -53,7 +67,7 @@ const getRelativeTime = (dateStr: string) => {
   return 'just now';
 };
 
-const displayTime = getRelativeTime(props.searchDateTime);
+const displayTime = getRelativeTime(props.historyItem.timeStamp);
 
 </script>
 
@@ -63,22 +77,22 @@ const displayTime = getRelativeTime(props.searchDateTime);
 
       <div class="location-icon-cont">
         <LocationIcon/>
-        <p class="location-text">{{ startLocation }}</p>
+        <p class="location-text">{{ historyItem.start.name }}</p>
       </div>
 
       <div class="location-icon-cont">
         <FlagIcon/>
-        <p class="location-text">{{ destination }}</p>
+        <p class="location-text">{{ historyItem.end.name }}</p>
       </div>
 
     </div>
 
     <div class="transport-date-cont">
-      <component :is="transportIconsMapper(transportMode)" class="dynamic-transport-icon"/>
+      <component :is="transportIconsMapper(historyItem.transportMode)" class="dynamic-transport-icon"/>
       <p>{{ displayTime }}</p>
     </div>
 
-    <ActionButton button-text="USE" class="use-button" @click="emit('useItem')"/>
+    <ActionButton button-text="USE" class="use-button" @click="useHistoryItem"/>
 
   </div>
 </template>
@@ -96,7 +110,7 @@ const displayTime = getRelativeTime(props.searchDateTime);
 
 .search-history-item:hover {
   box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.249);
-  width: 320px;
+  filter: brightness(1.2);
 }
 
 .start-destination-cont {

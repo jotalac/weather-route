@@ -44,6 +44,18 @@ export function getWeatherIcon(code: number): Component {
   return UnknownWeatherIcon;
 }
 
+export function getWeatherVideo(weatherCode: number): string {
+  if (weatherCode === 0) return "sunny-video.webm";
+  if (weatherCode === 1 || weatherCode === 2 || weatherCode === 3) return "cloudy-video.webm";
+  if (weatherCode === 45 || weatherCode === 48) return "fog-video.webm";
+  if (weatherCode >= 51 && weatherCode <= 67) return "rain-video.webm";
+  if (weatherCode >= 71 && weatherCode <= 77) return "snow-video.webm";
+  if (weatherCode >= 80 && weatherCode <= 82) return "rain-video.webm";
+  if (weatherCode >= 85 && weatherCode <= 86) return "snow-video.webm";
+  if (weatherCode >= 95 && weatherCode <= 99) return "thunder-video.webm";
+  return "sunny-video.webm";
+}
+
 export function getWeatherIconEmoji(code: number): string {
   if (code === 0) return '☀️';
   if (code === 1 || code === 2) return '🌤️';

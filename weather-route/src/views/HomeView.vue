@@ -3,14 +3,10 @@ import MainSearchForm from '@/components/home/MainSearchForm.vue';
 import SearchHistoryBlock from '@/components/home/SearchHistoryBlock.vue';
 import HistoryIcon from '@/components/icons/HistoryIcon.vue';
 import WeatherIcon from '@/components/icons/WeatherIcon.vue';
-import { useSearchStore } from '@/stores/searchStore';
-import type { SearchHistoryItem } from '@/types';
 import { getSearchHistory, HOME_PAGE_HISTORY_ITEMS } from '@/utils/searchHistoryFunctions';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
-
-const searchStore = useSearchStore()
 
 const router = useRouter()
 
@@ -19,18 +15,6 @@ const formSubmit = () => {
 }
 
 const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
-
-function useHistoryItem(historyItem: SearchHistoryItem) {
-  searchStore.startLocation = historyItem.start.name
-  searchStore.startCoords = {lat: historyItem.start.lat, lon: historyItem.start.lon}
-
-  searchStore.endLocation = historyItem.end.name
-  searchStore.endCoords = {lat: historyItem.end.lat, lon: historyItem.end.lon}
-
-  searchStore.transportMode = historyItem.transportMode
-
-  toast.info("Form values updated")
-}
 
 </script>
 
@@ -62,11 +46,7 @@ function useHistoryItem(historyItem: SearchHistoryItem) {
         <SearchHistoryBlock
           v-for="historyItem in historyItems"
           :key="historyItem.timeStamp"
-          :start-location="historyItem.start.name"
-          :destination="historyItem.end.name"
-          :transport-mode="historyItem.transportMode"
-          :search-date-time="historyItem.timeStamp"
-          @use-item="useHistoryItem(historyItem)"
+          :history-item="historyItem"
         />
       </div>
     </div>

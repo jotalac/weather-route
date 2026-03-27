@@ -36,3 +36,11 @@ export function getSearchHistory(): SearchHistoryItem[] {
     return [];
   }
 }
+
+export function deleteAllSearchHistory() {
+  try {
+    localStorage.removeItem(HISTORY_KEY)
+  } catch (error) {
+    console.log("Error deleting history items")
+  }
+}
