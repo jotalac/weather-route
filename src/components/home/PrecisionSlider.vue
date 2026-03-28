@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useSearchStore } from '@/stores/searchStore';
-import type { SearchPrecision } from '@/types';
+import { computed } from 'vue'
+import { useSearchStore } from '@/stores/searchStore'
+import type { SearchPrecision } from '@/types'
 
-const searchStore = useSearchStore();
+const searchStore = useSearchStore()
 
-const precisionLevels: SearchPrecision[] = ['min', 'low', 'medium', 'high', 'max'];
+const precisionLevels: SearchPrecision[] = ['min', 'low', 'medium', 'high', 'max']
 
 const currentPrecisionIndex = computed({
   get: () => precisionLevels.indexOf(searchStore.searchPrecision),
   set: (val: number) => {
-    searchStore.searchPrecision = precisionLevels[val];
-  }
-});
+    searchStore.searchPrecision = precisionLevels[val]!
+  },
+})
 
 const setPrecision = (index: number) => {
-  currentPrecisionIndex.value = index;
-};
+  currentPrecisionIndex.value = index
+}
 </script>
 
 <template>
