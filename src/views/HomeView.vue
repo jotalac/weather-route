@@ -22,6 +22,7 @@ const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
       Find
       <span class="highlighted-word">
         <WeatherIcon class="title-icon" />
+        <!-- <img src="/public/logo/weather_route_logo.svg" class="title-icon" /> -->
         weather
       </span>
       on your journey

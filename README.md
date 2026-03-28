@@ -4,6 +4,8 @@
 
 Interaktivní webová aplikace pro získání počasí na trase.
 
+<img src="public/logo/icon_192x192.png"/>
+
 Aplikace je dostupná [zde]()
 
 <img width="800" src="public/docs_images/image_1.png"/>
