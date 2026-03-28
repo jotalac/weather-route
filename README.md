@@ -4,7 +4,7 @@ Web app for getting weather data along some route.
 
 <img src="public/logo/icon_192x192.png"/>
 
-App availible here [here]()
+App availible here [here](https://jotalac.github.io/weather-route/)
 
 <img width="800" src="public/docs_images/image_1.png"/>
 

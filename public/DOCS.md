@@ -6,7 +6,7 @@ Interaktivní webová aplikace pro získání počasí na trase.
 
 <img src="logo/icon_192x192.png"/>
 
-Aplikace je dostupná [zde]()
+Aplikace je dostupná [zde](https://jotalac.github.io/weather-route/)
 
 <img width="800" src="docs_images/image_1.png"/>
 
