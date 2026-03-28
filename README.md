@@ -1,74 +1,91 @@
-Weather Route
+# Weather Route
 
-Semestrální práce - KAJ 2026 - [Tvé Jméno]
+**Semestrální práce - KAJ 2026**
 
-Webová aplikace, která slouží jako interaktivní plánovač tras obohacený o přesnou předpověď počasí v průběhu celé cesty.
-Uživatelé si zadají počáteční a cílový bod, zvolí typ dopravy a čas odjezdu. Aplikace následně vypočítá trasu a zobrazí meteorologické podmínky (teplotu, srážky atd.) pro různé úseky cesty s ohledem na odhadovaný čas průjezdu.
+Interaktivní webová aplikace pro získání počasí na trase.
 
-Cíl projektu a postup
-Cílem projektu bylo vytvořit responzivní a uživatelsky přívětivou aplikaci pro lidi, kteří plánují delší cestu (např. na kole nebo autem) a chtějí vědět, zda je po cestě nepotká déšť či bouřka.
-Cílem bylo propojit mapové podklady, geolokační služby, navigační algoritmy a otevřené archivy dat o počasí do jednoho plynulého UI.
+Aplikace je dostupná [zde]()
 
-Uživatelská dokumentace
-Vyhledání trasy a počasí
-Na domovské obrazovce aplikace se nachází hlavní vyhledávací formulář.
-Pro vyhledání trasy stačí vyplnit Start location (1) a Destination (2).
-Místo ručního vypisování startovní pozice můžete využít tlačítko pro GPS lokalizaci (3), které automaticky detekuje vaši aktuální polohu.
+<img width="800" src="public/docs_images/image_1.png"/>
 
-Dále si můžete zvolit Typ dopravy (chodník, kolo, auto) a nepovinný Čas odjezdu. Pokud čas odjezdu nevyplníte, použije se aktuální čas.
+## Cíl projektu
 
-Pro expertní použití je k dispozici posuvník Weather route precision, kterým si volíte s jakou frekvencí a na kolika bodech trasy se má počasí vyhodnocovat. Po vyplnění potvrďte tlačítkem Submit.
+Vytvořit nástroj pro řidiče, chodce a cyklisty, který poslouží k zobrazení počasí na jejich trase, aby se na dané počasí mohli připravit. Cestovatel získá detailní přehled o tom, zda ho po cestě čeká déšť, silný vítr nebo špatná viditelnost, a může si tak lépe naplánovat čas odjezdu.
 
-Zobrazení výsledků cesty (WeatherDashboard)
-Po odeslání požadavku je uživatel přesměrován na stránku s přehledem. Dominantou stránky je interaktivní mapa (1), na které je trasa vykreslena.
+## Funkce aplikace
 
-Níže se nachází dynamický seznam bodů trasy (2), u kterých je jasně vyznačeno předpokládané počasí spojené s časem protažení. Pokud v seznamu kliknete na konkrétní bod, dané místo se automaticky naanimuje a zvýrazní na mapě. Aplikace dokonce mění celkové video na pozadí podle převládajícího počasí.
+- **Routing s interaktivním počasím:** Získání trasy podle typu dopravy a extrakce jednotlivých záchytných bodů, ke kterým je přiřazena předpověď odpovídající času dojezdu.
+- **GPS lokalizace:** Automatické zjištění přibližné polohy uživatele.
+- **Interaktivní mapa:** Vykreslení navigační linie přes zobrazenou mapu (Leaflet), kde je mozné zobrazit každý bod průjezdu.
+- **Dynamické UI:** Vizuální zobrazení počasí pomocí změn videa na pozadí dle aktuálního počasí.
+- **Historie hledání:** Ukládání (Local Storage) historie vyhledávání pro rychlý opětovný přístup.
+- **Offline detekce:** Aplikace reaguje na výpadek internetu vizuálním upozorněním a dočasným zablokováním akcí, aby nedošlo k zamrznutí a pádům při volání sítě.
+- **Podpora pro mobilní zařízení:** Aplikace přizpůsobuje UI podle velikosti obrazovky a funguje tak i na mobilních zařízeních
 
-Kliknutím na tlačítko Open in Mapy.cz se navíc můžete přesunout k přímé navigaci v externí aplikaci.
+<div align="center">
+  <img src="public/docs_images/image_3.png"/>&nbsp;&nbsp;&nbsp; 
+  <img src="public/docs_images/image_4.png"/>
+</div>
 
-Historie vyhledávání
-Aplikace do lokálního úložiště ukládá historii vašich předchozích vyhledávání. Zobrazena je přímo pod formulářem na domovské stránce a komplexní pohled na historii (včetně možnosti hromadného promazání) je dostupný na samostatné podstránce.
+### Vyhledávací formulář
 
-Kdykoli stačí na panel z historie kliknout, a aplikace vás znovu přesměruje rovnou na výsledky dané trasy s ohledem na aktuální časové podmínky.
+- **Startovací lokace** (je možné získat lokaci z GPS)
+- **Destinace**
+- **Typ dopravy** - auto, pěší, kolo
+  - na vybraném typu dopravy závísí vybraná trasa a časy průjezdu
+- **Čas odjezdu** - je možné vybrat až dva týdny dopředu, zobrazené počasí pak bude ve vybraný datum a čas
+- **Přesnost vyhledávání** - určuje pro kolik bodů na trase se zobrazí počasí (pro kratší trasy nepotřebujeme tolik bodů)
 
-Offline režim
-Aplikace dbá na aktuální připojení k internetu uživatele. V případě ztráty spojení je uživatel okamžitě informován oranžovou chybovou hláškou na domovské obrazovce a vyhledávací tlačítka se dočasně zablokují, dokud není připojení obnoveno. Zabraňuje se tak pádu aplikace i nekompletnímu načítání dat.
+#### Validace
 
-Technická dokumentace
-Použité technologie a knihovny
-Jazyk: Typescript
+- při odesílání formuláře se validuje pomocí Nominatim API zda počáteční a cílová destinace existuje
 
-Framework: Vue 3 (Composition API, <script setup>)
+<img width="800" src="public/docs_images/image_2.png"/>
 
-Build systém: Vite
+## Technická dokumentace
 
-State Management: Pinia
+### Technologie
 
-Router: Vue Router pro SPA (Single Page Application) navigaci.
+- **Framework:** Vue 3
+- **Jazyk:** Typescript, CSS
+- **Build systém:** Vite
+- **State Management:** Pinia (`searchStore` pro data formuláře, `networkStore` pro stav sítě)
+- **Routing:** Vue Router (SPA navigace)
+- **Styling a UI:** CSS, SVG ikony [zdroj](https://icon-sets.iconify.design/) .
+- **Mapy:** Leaflet
 
-Leaflet - Pro zobrazení interaktivní navigační mapy v detailu výsledků.
+### Využitá API rozhraní
 
-vue3-toastify - Balíček pro notifikace a vyskakovací zprávy o stavu (Error, Success atd.).
+Aplikace komunikuje se 3 bezplatnými, na sobě nezávislými službami:
 
-Vlastní SVG Ikony - Většina vizuálních prvků aplikace je zapouzdřena do vlastních znovupoužitelných zkompilovaných Vue komponent.
+1. **Nominatim API (OpenStreetMap):** Uživatelův textový vstup transformuje na GPS souřadnice (Geocoding / Reverse Geocoding).
+2. **OSRM API (Open Source Routing Machine):** Přijímá počáteční a cílový bod a vrací trasu ve formě bodů průjezdu s kalkulací času dle typu dopravy.
+3. **OpenMeteo API:** Získává meteorologická data v bodech průjezdu v přesný čas průjezdu.
 
-Použitá API rozhraní
-Vzhledem k tomu, že spojení geolokativních, routovacích a meteorologických dat napříč jedním zdrojem nebývá dostupné bez poplatků, aplikace logicky a postupně řetězí volání 3 nezávislých otevřených API:
+### Informace o kódu
 
-Nominatim API (nominatimApi.ts) - Zodpovědné za Geocoding a Reverse Geocoding. Přetváří textově zadaná města uživatelem (např. "Praha") na GPS souřadnice, které jsou vyžadovány dalšími servery.
-OSRM API (osrmApi.ts) - Open Source Routing Machine. Přebírá startovní a cílové GPS souřadnice z Nominatimu a vrací přesný navigační polygon (cestu) spolu s odhadovaným celkovým časem dojezdu na základě typu dopravy.
-OpenMeteo API (openMeteoApi.ts) - V aplikaci byly naprogramovány obslužné utility (např. extractWeatherPoints), které rozloží trasu z OSRM na několik menších bodů a spočítají orientační čas průjezdu daným bodem. Tyto body jsou následovně sériově staženy přes OpenMeteo API za účelem zisku přesného počasí, viditelnosti a teploty pro daný čas.
-Architektura uložení a State Management
-Aplikace využívá Pinia pro uchování globálních stavů:
+- **Vlastní HTTP klient (`apiClient.ts`):** Pro volání API je vytvořen custom wrapper kolem nativního `fetch()`.
+- **Extrakce a filtrace bodů (`routePointsHandler.ts`):** Navigační API vrací tisíce bodů, které by zahltily systém počasí. Aplikace zahrnuje logiku, která na základě zvolené přesnosti vyfiltruje pouze potřebné body pro meteorologický dotaz.
+- **Network Awareness (`networkStore.ts` & `App.vue`):** Aplikace naslouchá globálním eventům prohlížeče (`online`, `offline`) a mění instanci ve Store. Tak UI informuje a dostupnosti sítě (vyvolají se zablokování tlačítek u GPS a formulářů a zobrazí se zpráva).
 
-searchStore - Drží aktuálně zadaná data uživatelem ve formuláři, přesnost výsledku trasy, mód dopravy a odvozené GPS souřadnice lokací. Zabraňuje ztrátě rozeplněných dat ve chvíli, kdy uživatel přechází mezi pohledy (Views).
-networkStore - Obsahuje jednoduchý isOnline reaktivní stav.
-Struktura View/Komponent odpovídá reaktivnímu konceptu. Views (HomeView.vue, WeatherView.vue) provádí těžkou logiku skládání a načítání API (vytvářejí loading stav zobrazený uživateli), zatímco obslužné komponenty (MainSearchForm.vue, RouteMap.vue, WeatherBigCard.vue) reagují pouze na dodaná data (Props) nebo odesílají akce (Emits).
+---
 
-Error Handling a Rate Limiting
-Aplikace je vybavena vlastním generickým obalujícím HTTP klientem (apiClient.ts). V něm je naimplementováno centrální ošetření chyb v síti.
+### Spuštění
 
-Aplikace dokáže detekovat HTTP Status 429 - Too Many Requests a zamezit chybě. Obzvláště bezplatné API od Nominatim je vysoce restriktivní. Pokud Nominatim namísto standardní HTTP chyby ukončí API spojení bez CORS hlaviček, detekuje apiClient.ts generický network TypeError příznak v izolovaném bloku vyjímek a automaticky jej aplikaci pošle interpretovaný přes bezpečný objekt RateLimitError. V UI je následně vyvolán korektní Toast, který o rate-limitu informuje uživatele.
+1. Instalace zavislosti:
 
-Offline handling
-Pro detekci sítě je využit nativní JS navigator.onLine a Window Event listenery (online, offline), které aktualizují Pinia Store. Z tohoto Storu čtou následně interaktivní tlačítka (např. zablokování GPS tlačítka s disabled) a odesílací formulářová logika, která podává explicitní zpětné hlášení uživateli v případě propadu WiFi-Off ikoně.
+```sh
+bun install
+```
+
+2. Spusteni lokalne
+
+```sh
+bun dev
+```
+
+3. Build pro produkci
+
+```sh
+bun run build
+```
