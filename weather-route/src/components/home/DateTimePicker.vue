@@ -8,7 +8,7 @@ const maxSearchDays = 14
 
 // min time is now, max time is 16 days from now
 const formatDateTime = (date: Date) => {
-  // Use local time instead of UTC to avoid timezone shifting
+  // use local time instead of UTC to avoid timezone shifting
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -18,12 +18,12 @@ const formatDateTime = (date: Date) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-// Calculate `min` (now)
+// calculate `min` (now)
 const minDateTime = computed(() => {
   return formatDateTime(new Date());
 });
 
-// Calculate `max` (exactly 5 days from now)
+// calculate `max`
 const maxDateTime = computed(() => {
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + maxSearchDays);
@@ -49,7 +49,6 @@ const maxDateTime = computed(() => {
   border-radius: 50px;
   padding: 0px 10px;
   outline: none;
-  /* border: 2px var(--primary-250) solid; */
   border: none;
   background-color: var(--primary-250);
   color: var(--primary-1500);
@@ -62,7 +61,7 @@ const maxDateTime = computed(() => {
   box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.313);
 }
 
-/* Optional: customize the native calendar icon slightly */
+
 ::-webkit-calendar-picker-indicator {
   cursor: pointer;
   opacity: 0.6;

@@ -9,7 +9,7 @@ const props = defineProps<{
   highlightedPoint?: RoutePoint | null
 }>();
 
-// Reference to the DOM element where the map will be injected
+// reference to the DOM element where the map will be injected
 const mapContainer = ref<HTMLElement | null>(null)
 let map: L.Map | null = null
 let highlightMarker: L.CircleMarker | null = null
@@ -24,11 +24,6 @@ onMounted(() => {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
   }).addTo(map);
 
-  // lighter dark map
-//   L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-//   maxZoom: 20,
-//   attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-// }).addTo(map);
 
   // get lat, lon tuples from route points
   const latLngs: L.LatLngExpression[] = props.routePoints.map(point => [point.lat, point.lon]);
@@ -59,10 +54,9 @@ watch(() => props.highlightedPoint, (newPoint) => {
       fillOpacity: 1
     }).addTo(map);
 
-    // Smoothly pan and zoom to the new point
-    // The '13' is target zoom level - adjust as needed
+    //smooth animation to the point
     map.flyTo([newPoint.lat, newPoint.lon], 12, {
-      duration: 1.5 // Animation duration in seconds
+      duration: 0.7
     });
   }
 });

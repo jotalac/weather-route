@@ -92,7 +92,6 @@ const setPrecision = (index: number) => {
   font-weight: bold;
 }
 
-/* Customizing the Range Input */
 .custom-range {
   -webkit-appearance: none;
   width: 100%;

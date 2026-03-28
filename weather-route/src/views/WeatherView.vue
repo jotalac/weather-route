@@ -337,7 +337,7 @@ function navigateBack() {
   overflow-x: hidden;
 }
 
-/* Custom scrollbar for list container */
+/* custom scroll bar */
 .weather-list-scroll-cont::-webkit-scrollbar {
   width: 8px;
 }

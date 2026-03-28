@@ -9,7 +9,7 @@ import BikeIcon from '../icons/BikeIcon.vue';
 import CarSideIcon from '../icons/CarSideIcon.vue';
 import DateTimePicker from './DateTimePicker.vue';
 import ActionButton from '../MainButton.vue';
-import { Slide, toast } from 'vue3-toastify';
+import { toast } from 'vue3-toastify';
 import GPSIcon from '../icons/GPSIcon.vue';
 import { useGeolocationAPI } from '@/composables/useGeolocationAPI';
 import { fetchCoordsFromLocation } from '@/api/nominatimApi';
@@ -47,7 +47,6 @@ const transportIcons = {
 
 const resetFormData = () => {
   searchStore.resetAllValues()
-  // toast.info("Form resetted!")
 }
 
 const submitFormData = async (e: Event) => {
@@ -130,8 +129,8 @@ const findUserLocation = async () => {
           <p class="form-item-label">Start location</p>
 
           <button class="gps-button tooltip" @click="findUserLocation" type="button" :disabled="locationLoading || !networkStore.isOnline">
-            <GPSIcon class="gps-icon"/>
             <span class="tooltiptext">Get current loaction</span>
+            <GPSIcon class="gps-icon"/>
           </button>
         </div>
 
@@ -247,6 +246,7 @@ const findUserLocation = async () => {
 .gps-button:hover {
   background-color: var(--primary-500);
   filter: brightness(1.1);
+  z-index: 1000;
 }
 
 .gps-button:disabled {

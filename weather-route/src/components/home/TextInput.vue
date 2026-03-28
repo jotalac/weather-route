@@ -12,12 +12,17 @@ const model = defineModel<string>()
 </script>
 
 <template>
-  <input
-    type="text"
-    :placeholder="props.placeholder"
-    v-model="model"
-    :class="{'error': errorMsg !== ''}"
-  />
+  <div class="tooltip">
+    <input
+      type="text"
+      :placeholder="props.placeholder"
+      v-model="model"
+      :class="{'error': errorMsg !== ''}"
+    />
+
+    <span v-if="errorMsg != ''" class="tooltiptext">{{ errorMsg }}</span>
+
+  </div>
 </template>
 
 <style scoped>
