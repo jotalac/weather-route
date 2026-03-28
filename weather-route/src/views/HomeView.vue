@@ -3,12 +3,15 @@ import MainSearchForm from '@/components/home/MainSearchForm.vue';
 import SearchHistoryBlock from '@/components/home/SearchHistoryBlock.vue';
 import HistoryIcon from '@/components/icons/HistoryIcon.vue';
 import WeatherIcon from '@/components/icons/WeatherIcon.vue';
+import { useNetworkStore } from '@/stores/networkStore';
 import { getSearchHistory, HOME_PAGE_HISTORY_ITEMS } from '@/utils/searchHistoryFunctions';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 
 const router = useRouter()
+
+const networkStore = useNetworkStore()
 
 const formSubmit = () => {
   router.push("weather")

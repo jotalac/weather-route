@@ -152,7 +152,7 @@ function deleteAllRecords() {
   justify-content: center;
   gap: 30px;
   max-width: 1500px;
-  max-height: 1500px;
+  /* max-height: 1500px; */
   overflow: scroll;
   margin-top: 30px;
   background-color: var(--transparent-dark);

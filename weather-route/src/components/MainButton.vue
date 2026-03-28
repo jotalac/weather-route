@@ -67,4 +67,10 @@ button.reset{
   background-color: var(--primary-1500);
   color: var(--primary-100);
 }
+
+button:disabled {
+  filter: brightness(0.5);
+  cursor: not-allowed;
+
+}
 </style>

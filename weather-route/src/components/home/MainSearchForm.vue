@@ -16,10 +16,14 @@ import { fetchCoordsFromLocation } from '@/api/nominatimApi';
 import {ref} from 'vue'
 import { storeToRefs } from 'pinia';
 import PrecisionSlider from './PrecisionSlider.vue';
+import { useNetworkStore } from '@/stores/networkStore';
+import NoWifiIcon from '../icons/NoWifiIcon.vue';
 
 const emits = defineEmits<{
   formSubmitted: []
 }>()
+
+const networkStore = useNetworkStore()
 
 const searchStore = useSearchStore();
 const {
@@ -125,7 +129,7 @@ const findUserLocation = async () => {
           <LocationIcon class="input-icon"/>
           <p class="form-item-label">Start location</p>
 
-          <button class="gps-button tooltip" @click="findUserLocation" type="button" :disabled="locationLoading">
+          <button class="gps-button tooltip" @click="findUserLocation" type="button" :disabled="locationLoading || !networkStore.isOnline">
             <GPSIcon class="gps-icon"/>
             <span class="tooltiptext">Get current loaction</span>
           </button>
@@ -168,9 +172,10 @@ const findUserLocation = async () => {
 
     <div class="buttons-cont">
       <ActionButton :button-text="'Reset'" :button-type="'reset'" :button-disabled="buttonsDisabled"/>
-      <ActionButton :button-text="'Submit'" :button-type="'submit'" :button-disabled="buttonsDisabled"/>
-
+      <ActionButton :button-text="'Submit'" :button-type="'submit'" :button-disabled="buttonsDisabled || !networkStore.isOnline"/>
     </div>
+
+    <p v-if="!networkStore.isOnline" class="offline-message"><NoWifiIcon/> Your are offline</p>
 
   </form>
 
@@ -246,6 +251,7 @@ const findUserLocation = async () => {
 
 .gps-button:disabled {
   filter: brightness(0.8);
+  cursor: not-allowed;
 }
 
 .gps-icon {
@@ -314,6 +320,14 @@ const findUserLocation = async () => {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+}
+
+.offline-message {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: var(--header-text);
+  color: rgb(254, 81, 81);
 }
 
 @media (max-width: 800px) {
