@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import MainSearchForm from '@/components/home/MainSearchForm.vue';
-import SearchHistoryBlock from '@/components/home/SearchHistoryBlock.vue';
-import HistoryIcon from '@/components/icons/HistoryIcon.vue';
-import WeatherIcon from '@/components/icons/WeatherIcon.vue';
-import { getSearchHistory, HOME_PAGE_HISTORY_ITEMS } from '@/utils/searchHistoryFunctions';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import MainSearchForm from '@/components/home/MainSearchForm.vue'
+import SearchHistoryBlock from '@/components/home/SearchHistoryBlock.vue'
+import HistoryIcon from '@/components/icons/HistoryIcon.vue'
+import WeatherIcon from '@/components/icons/WeatherIcon.vue'
+import { getSearchHistory, HOME_PAGE_HISTORY_ITEMS } from '@/utils/searchHistoryFunctions'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
 const formSubmit = () => {
-  router.push("weather")
+  router.push('weather')
 }
 
 const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
-
 </script>
 
 <template>
@@ -22,24 +21,22 @@ const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
     <h1 id="main-title">
       Find
       <span class="highlighted-word">
-        <WeatherIcon class="title-icon"/>
+        <WeatherIcon class="title-icon" />
         weather
       </span>
       on your journey
     </h1>
-    <MainSearchForm v-on:form-submitted="formSubmit"/>
+    <MainSearchForm v-on:form-submitted="formSubmit" />
 
     <div v-if="historyItems.length !== 0" class="search-history-cont">
-        <div class="search-history-title">
-          <h2>
-            <HistoryIcon class="header-icon"/>
-            Search history
-          </h2>
+      <div class="search-history-title">
+        <h2>
+          <HistoryIcon class="header-icon" />
+          Search history
+        </h2>
 
-          <RouterLink to="/history" class="full-history-link">View full histroy</RouterLink>
-        </div>
-
-
+        <RouterLink to="/history" class="full-history-link">View full histroy</RouterLink>
+      </div>
 
       <div class="history-items-cont">
         <SearchHistoryBlock
@@ -49,10 +46,7 @@ const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
         />
       </div>
     </div>
-
-
   </main>
-
 </template>
 
 <style scoped>
@@ -83,13 +77,13 @@ const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
 .search-history-cont {
   width: 100%;
   max-width: 100vw;
-  overflow-x: scroll;
+  overflow-x: hidden;
   color: var(--primary-100);
   margin-top: 50px;
   padding: 0 20px;
 }
 
-.history-items-cont{
+.history-items-cont {
   display: flex;
   width: 100%;
   overflow-x: scroll;
@@ -109,12 +103,12 @@ const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
   margin-right: 10px;
 }
 
-.search-history-title{
+.search-history-title {
   max-width: 90%;
   margin-bottom: 20px;
 }
 
-.full-history-link{
+.full-history-link {
   text-decoration: underline;
   color: var(--primary-250);
 }
@@ -123,19 +117,15 @@ const historyItems = ref(getSearchHistory().slice(0, HOME_PAGE_HISTORY_ITEMS))
   filter: brightness(1.2);
 }
 
-
-
-@media (max-width:750px) {
-  #main-title{
+@media (max-width: 750px) {
+  #main-title {
     font-size: 3em;
     line-height: 1.2;
   }
 
-  .title-icon{
+  .title-icon {
     width: 40px;
     height: 40px;
   }
-
 }
-
 </style>

@@ -20,7 +20,7 @@ Vytvořit nástroj pro řidiče, chodce a cyklisty, který poslouží k zobrazen
 - **Dynamické UI:** Vizuální zobrazení počasí pomocí změn videa na pozadí dle aktuálního počasí.
 - **Historie hledání:** Ukládání (Local Storage) historie vyhledávání pro rychlý opětovný přístup.
 - **Offline detekce:** Aplikace reaguje na výpadek internetu vizuálním upozorněním a dočasným zablokováním akcí, aby nedošlo k zamrznutí a pádům při volání sítě.
-- **Podpora pro mobilní zařízení:** Aplikace přizpůsobuje UI podle velikosti obrazovky a funguje tak i na mobilních zařízeních
+- **Podpora pro mobilní zařízení:** Aplikace přizpůsobuje UI podle velikosti obrazovky a funguje tak i na mobilních zařízeních.
 
 <div align="center">
   <img src="public/docs_images/image_3.png"/>&nbsp;&nbsp;&nbsp; 
@@ -53,6 +53,7 @@ Vytvořit nástroj pro řidiče, chodce a cyklisty, který poslouží k zobrazen
 - **Routing:** Vue Router (SPA navigace)
 - **Styling a UI:** CSS, SVG ikony [zdroj](https://icon-sets.iconify.design/) .
 - **Mapy:** Leaflet
+- **Ostatní:** PWA (instalace aplikace do zařízení)
 
 ### Využitá API rozhraní
 

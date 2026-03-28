@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { fetchWeatherRouteData } from '@/api/openMeteoApi';
-import { fetchRoute } from '@/api/osrmApi';
-import LoadingIcon from '@/components/icons/LoadingIcon.vue';
-import RouteMap from '@/components/weather/RouteMap.vue';
-import { useSearchStore } from '@/stores/searchStore';
-import type { RoutePoint, SearchHistoryItem, WeatherPoint } from '@/types';
-import { extractRoutePoints } from '@/utils/routePointsHandler';
-import { extractWeatherPoints } from '@/utils/weatherPointsHandler';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import {toast} from 'vue3-toastify'
+import { fetchWeatherRouteData } from '@/api/openMeteoApi'
+import { fetchRoute } from '@/api/osrmApi'
+import LoadingIcon from '@/components/icons/LoadingIcon.vue'
+import RouteMap from '@/components/weather/RouteMap.vue'
+import { useSearchStore } from '@/stores/searchStore'
+import type { RoutePoint, SearchHistoryItem, WeatherPoint } from '@/types'
+import { extractRoutePoints } from '@/utils/routePointsHandler'
+import { extractWeatherPoints } from '@/utils/weatherPointsHandler'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
 
-import WeatherBigCard from '@/components/weather/WeatherBigCard.vue';
-import WeatherListItem from '@/components/weather/WeatherListItem.vue';
-import { fetchLocationFromCoords } from '@/api/nominatimApi';
-import RouteOverview from '@/components/weather/RouteOverview.vue';
-import ReturnIcon from '@/components/icons/ReturnIcon.vue';
-import { createMapyCzLink } from '@/utils/util';
-import { saveSearchToHistory } from '@/utils/searchHistoryFunctions';
-import DepartureArrivalLine from '@/components/weather/DepartureArrivalLine.vue';
-import BackgroundVideo from '@/components/BackgroundVideo.vue';
+import WeatherBigCard from '@/components/weather/WeatherBigCard.vue'
+import WeatherListItem from '@/components/weather/WeatherListItem.vue'
+import { fetchLocationFromCoords } from '@/api/nominatimApi'
+import RouteOverview from '@/components/weather/RouteOverview.vue'
+import ReturnIcon from '@/components/icons/ReturnIcon.vue'
+import { createMapyCzLink } from '@/utils/util'
+import { saveSearchToHistory } from '@/utils/searchHistoryFunctions'
+import DepartureArrivalLine from '@/components/weather/DepartureArrivalLine.vue'
+import BackgroundVideo from '@/components/BackgroundVideo.vue'
 
 const searchStore = useSearchStore()
 const router = useRouter()
@@ -31,50 +31,58 @@ const totalDuration = ref<number | null>(null) // duration in seconds
 
 const weatherPoints = ref<Array<WeatherPoint>>([])
 
-
 //loading states
 const isLoading = ref(true)
-const loadingMsg = ref("")
+const loadingMsg = ref('')
 
 const selectedRoutePoint = ref<RoutePoint | null>(null)
 const expandedItemIndex = ref<number | null>(null)
 
-const mapyCzLink = ref(createMapyCzLink(searchStore.transportMode, searchStore.startCoords, searchStore.endCoords))
+const mapyCzLink = ref(
+  createMapyCzLink(searchStore.transportMode, searchStore.startCoords, searchStore.endCoords),
+)
 
 //load all data
 onMounted(async () => {
   //check all needed data is provided
   if (!checkIfAllDataIsProvided()) {
-    returnHomeWithErrorToast("Missing data for weather route")
+    returnHomeWithErrorToast('Missing data for weather route')
     return
   }
 
-  loadingMsg.value = "Fetching route..."
+  loadingMsg.value = 'Fetching route...'
   await getRouteData()
 
-  loadingMsg.value = "Fetching weather data..."
+  loadingMsg.value = 'Fetching weather data...'
   await getWeatherData()
 
-  loadingMsg.value = "Fetching location names..."
+  loadingMsg.value = 'Fetching location names...'
   await getRequieredLocationNames()
 
   saveItemToHistory()
 
-
-  isLoading.value = false;
+  isLoading.value = false
 })
 
 // === functions ===
 function saveItemToHistory() {
   const saveData: SearchHistoryItem = {
-    start: {name: searchStore.startLocation, lat: searchStore.startCoords.lat!, lon: searchStore.startCoords.lat!},
-    end: {name: searchStore.endLocation, lat: searchStore.endCoords.lat!, lon: searchStore.endCoords.lat!},
+    start: {
+      name: searchStore.startLocation,
+      lat: searchStore.startCoords.lat!,
+      lon: searchStore.startCoords.lat!,
+    },
+    end: {
+      name: searchStore.endLocation,
+      lat: searchStore.endCoords.lat!,
+      lon: searchStore.endCoords.lat!,
+    },
     transportMode: searchStore.transportMode,
-    timeStamp: new Date().toISOString()
+    timeStamp: new Date().toISOString(),
   }
 
   saveSearchToHistory(saveData)
-  console.log("Item saved to search history")
+  console.log('Item saved to search history')
 }
 
 const handlePointSelected = (index: number) => {
@@ -85,7 +93,7 @@ const handlePointSelected = (index: number) => {
   if (mapElement) {
     mapElement.scrollIntoView({
       behavior: 'smooth',
-      block: 'center'
+      block: 'center',
     })
   }
 }
@@ -103,9 +111,18 @@ async function getRequieredLocationNames() {
   const middlePointIndex = Math.round(routePoints.value.length / 2 - 1)
 
   //get location names for the first, last and middle point
-  const startLocation = await fetchLocationFromCoords(routePoints.value[0]!.lat, routePoints.value[0]!.lon)
-  const endLocation = await fetchLocationFromCoords(routePoints.value[lastPointIndex]!.lat, routePoints.value[lastPointIndex]!.lon)
-  const middleLocation = await fetchLocationFromCoords(routePoints.value[middlePointIndex]!.lat, routePoints.value[middlePointIndex]!.lon)
+  const startLocation = await fetchLocationFromCoords(
+    routePoints.value[0]!.lat,
+    routePoints.value[0]!.lon,
+  )
+  const endLocation = await fetchLocationFromCoords(
+    routePoints.value[lastPointIndex]!.lat,
+    routePoints.value[lastPointIndex]!.lon,
+  )
+  const middleLocation = await fetchLocationFromCoords(
+    routePoints.value[middlePointIndex]!.lat,
+    routePoints.value[middlePointIndex]!.lon,
+  )
 
   if (startLocation) {
     weatherPoints.value[0]!.locationName = startLocation
@@ -118,16 +135,19 @@ async function getRequieredLocationNames() {
   if (middleLocation) {
     weatherPoints.value[middlePointIndex]!.locationName = middleLocation
   }
-
 }
 
 async function getRouteData() {
   const responseData = await fetchRoute(
-    searchStore.startCoords.lat!, searchStore.startCoords.lon!, searchStore.endCoords.lat!, searchStore.endCoords.lon!, searchStore.transportMode
+    searchStore.startCoords.lat!,
+    searchStore.startCoords.lon!,
+    searchStore.endCoords.lat!,
+    searchStore.endCoords.lon!,
+    searchStore.transportMode,
   )
 
   if (!responseData) {
-    returnHomeWithErrorToast("Error getting route rate")
+    returnHomeWithErrorToast('Error getting route rate')
     return
   }
 
@@ -138,65 +158,67 @@ async function getRouteData() {
   //allow maximum 2 day length trips
   const routeLengthDays = totalDuration.value! / (60 * 60 * 24)
   if (routeLengthDays > 2) {
-    returnHomeWithErrorToast(`Route too long, maximum 2 days allowed, your trip: ${routeLengthDays.toFixed(2)} days long`)
+    returnHomeWithErrorToast(
+      `Route too long, maximum 2 days allowed, your trip: ${routeLengthDays.toFixed(2)} days long`,
+    )
   }
 
   //get route points
   routePoints.value = extractRoutePoints(responseData, searchStore.searchPrecision)
-  if (routePoints.value.length <= 2) returnHomeWithErrorToast("Invalid route")
-
+  if (routePoints.value.length <= 2) returnHomeWithErrorToast('Invalid route')
 }
 
 async function getWeatherData() {
   const responseData = await fetchWeatherRouteData(routePoints.value, searchStore.departureTime)
 
   if (responseData.length < 3) {
-    returnHomeWithErrorToast("Error getting weather data")
+    returnHomeWithErrorToast('Error getting weather data')
     return
   }
 
   //convert the data to the correct format
-  weatherPoints.value = await extractWeatherPoints(responseData, routePoints.value, searchStore.departureTime)
-  console.log("Extracted weather points", weatherPoints.value)
+  weatherPoints.value = await extractWeatherPoints(
+    responseData,
+    routePoints.value,
+    searchStore.departureTime,
+  )
+  console.log('Extracted weather points', weatherPoints.value)
 }
-
 
 function checkIfAllDataIsProvided(): boolean {
   if (
-    searchStore.startCoords.lat === null || searchStore.startCoords.lon === null ||
-    searchStore.endCoords.lat === null || searchStore.endCoords.lon === null ||
+    searchStore.startCoords.lat === null ||
+    searchStore.startCoords.lon === null ||
+    searchStore.endCoords.lat === null ||
+    searchStore.endCoords.lon === null ||
     searchStore.transportMode === null
-  ) return false
+  )
+    return false
 
   return true
 }
 
-function returnHomeWithErrorToast (message: string) {
-  toast.error(message, {autoClose: 5000})
-  router.push("/")
+function returnHomeWithErrorToast(message: string) {
+  toast.error(message, { autoClose: 5000 })
+  router.push('/')
 }
 
 function navigateBack() {
-  router.push("/")
+  router.push('/')
 }
-
-
 </script>
 
 <template>
   <main class="weather-view-main">
-
-
     <div v-if="isLoading" class="loading-cont">
-      <LoadingIcon class="loading-icon"/>
+      <LoadingIcon class="loading-icon" />
       <p>{{ loadingMsg }}</p>
     </div>
 
     <!-- display weather data -->
     <div v-else class="content-container">
-        <!-- background video -->
-        <BackgroundVideo :weather-code="weatherPoints[0]?.weather.weatherCode!"/>
-
+      <!-- background video -->
+      <BackgroundVideo :weather-code="weatherPoints[0]?.weather.weatherCode!" />
 
       <!-- back button -->
       <button class="back-button-cont" @click="navigateBack">
@@ -205,7 +227,11 @@ function navigateBack() {
       </button>
 
       <!-- route overview -->
-      <RouteOverview :transport-mode="searchStore.transportMode" :distance="totalDistance!" :duration="totalDuration!"/>
+      <RouteOverview
+        :transport-mode="searchStore.transportMode"
+        :distance="totalDistance!"
+        :duration="totalDuration!"
+      />
 
       <div class="weather-dashboard" v-if="weatherPoints.length > 0">
         <div class="big-weather-cont">
@@ -241,7 +267,10 @@ function navigateBack() {
           </div>
         </div>
 
-        <DepartureArrivalLine :start-date-time="searchStore.departureTime!" :duration-seconds="totalDuration!"/>
+        <DepartureArrivalLine
+          :start-date-time="searchStore.departureTime!"
+          :duration-seconds="totalDuration!"
+        />
 
         <RouteMap
           id="route-map-element"
@@ -253,13 +282,9 @@ function navigateBack() {
           Navigate on
           <img src="https://api.mapy.com/img/api/logo_green.svg" />
         </a>
-
       </div>
-
-
     </div>
   </main>
-
 </template>
 
 <style scoped>
@@ -289,7 +314,7 @@ function navigateBack() {
   border: none;
 }
 
-.back-button-cont svg{
+.back-button-cont svg {
   width: 50px;
   height: 50px;
 }
@@ -360,7 +385,6 @@ function navigateBack() {
   color: rgb(10, 201, 10);
 }
 
-
 /* loading content */
 .loading-cont {
   display: flex;
@@ -399,7 +423,7 @@ function navigateBack() {
     padding: 0;
   }
 
-  .back-button-cont{
+  .back-button-cont {
     font-size: 1em;
   }
 
@@ -407,7 +431,5 @@ function navigateBack() {
     width: 40px;
     height: 40px;
   }
-
-
 }
 </style>
